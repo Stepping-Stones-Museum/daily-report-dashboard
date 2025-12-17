@@ -1,0 +1,41 @@
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    height: 200px;
+    padding: 20px;
+    border-left: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    width: 300px;
+  }
+  
+  .bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+  
+  .bar {
+    width: 40px;
+    background-color: #4a90e2;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease;
+  }
+  
+  .label {
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  
+  
+  
+  
+  .pie-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+  }
+  
+  
