@@ -70,9 +70,9 @@ body {
 .bar-chart, .forecast-bar-chart {
     display: flex;
     align-items: flex-end;
-    gap: 20px;
+    gap: 5px;
     height: 100%;
-    padding: 20px;
+    padding: 10px;
     border-left: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
     width: 100%;
