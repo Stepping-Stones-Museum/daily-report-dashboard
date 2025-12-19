@@ -8,23 +8,82 @@
     <script defer src="script.js" rel="script"></script>
   </head>
   <body>
-    <div class="bar-chart">
-      <div class="bar-container">
-        <div class="bar" style="height: 40%"></div>
-        <span class="label">A</span>
+    <section class="dashboard-grid">
+      <div class="grid-cell heading-cell">
+        <div class="date-toggle">
+          <button onclick="previousDay()">← Previous</button>
+          <h1>Today's Date</h1>
+          <button onclick="nextDay()">Next →</button>
+        </div>
       </div>
 
-      <div class="bar-container">
-        <div class="bar" style="height: 70%"></div>
-        <span class="label">B</span>
+      <div class="grid-cell top-left-cell">
+        <div class="bar-chart">
+          <div class="bar-container">
+            <div class="bar" style="height: 0%"></div>
+            <span class="bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="bar" style="height: 0%"></div>
+            <span class="bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="bar" style="height: 0%"></div>
+            <span class="bar-label label">0</span>
+          </div>
+        </div>
       </div>
 
-      <div class="bar-container">
-        <div class="bar" style="height: 55%"></div>
-        <span class="label">C</span>
-      </div>
-    </div>
+      <div class="grid-cell top-middle-cell"></div>
 
-    <div class="pie-chart" id="pie"></div>
+      <div class="grid-cell top-right-cell">
+        <div class="forecast-bar-chart">
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+
+          <div class="bar-container">
+            <div class="forecast-bar" style="height: 0%"></div>
+            <span class="forecast-bar-label label">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-cell bottom-left-cell">
+        <div class="pie-chart" id="pie"></div>
+      </div>
+
+      <div class="grid-cell bottom-middle-cell"></div>
+
+      <div class="grid-cell bottom-right-cell"></div>
+    </section>
   </body>
 </html>
