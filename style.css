@@ -29,6 +29,9 @@ body {
      /*background-color: rgb(219, 219, 219); */
     border-radius: 5px;
     border: 2px solid rgb(241, 241, 241);
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }
 
 .top-left-cell {
@@ -45,6 +48,7 @@ body {
 
 .bottom-left-cell {
     grid-area: 3 / 1 / span 1 / span 1;
+    align-items: center;
 }
 
 .bottom-middle-cell {
@@ -67,7 +71,7 @@ body {
     display: flex;
     align-items: flex-end;
     gap: 20px;
-    height: 200px;
+    height: 100%;
     padding: 20px;
     border-left: 2px solid #ccc;
     border-bottom: 2px solid #ccc;
