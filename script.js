@@ -64,10 +64,6 @@ function fetchUrlData(urlData) {
         .catch(err => console.error("Failed to fetch schedule data:", err));
 }
 
-// DOM ready
-document.addEventListener('DOMContentLoaded', () => {
-    fetchUrlData(firebaseFetchUrl);
-});
 
 // Bar graph
 function populateBarGraph(one, two, three) {
@@ -161,3 +157,10 @@ function renderDates() {
     console.log('7 day:', sevenDayDate);
     fetchUrlData(firebaseFetchUrl);
 }
+
+// DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    renderForecast(oneYearPreviousDate)
+    fetchUrlData(firebaseFetchUrl);
+});
+
