@@ -3,6 +3,8 @@ let firebaseFetchUrl = `${firebaseUrl}.json`;
 let currentDate = '2025-12-18';
 let oneYearPreviousDate = '2024-12-19';
 let twoYearPreviousDate = '2023-12-14';
+const maxAttendance = 1000;
+let dailyReportData;
 
 let oneDayDate;
 let twoDayDate;
@@ -29,6 +31,7 @@ let curentMemberRevenue;
 let currentShopRevenue;
 let currentBirthdayRevenue;
 let currentGroupRevenue;
+let totalRevenue;
 
 
 // Fetch data
@@ -36,6 +39,10 @@ function fetchUrlData(urlData) {
     fetch(urlData)
         .then(res => res.json())
         .then(data => {
+            dailyReportData = data;
+
+            document.querySelector(".daily-date-heading").textContent = currentDate;
+
             currentAttendanceData = parseInt(data[currentDate]?.attendance || 0);
             oneYearAttendanceData = parseInt(data[oneYearPreviousDate]?.attendance || 0);
             twoYearAttendanceData = parseInt(data[twoYearPreviousDate]?.attendance || 0);
@@ -53,9 +60,10 @@ function fetchUrlData(urlData) {
             currentShopRevenue = parseInt(data[currentDate]?.shop_revenue || 0);
             currentBirthdayRevenue = parseInt(data[currentDate]?.birthday_revenue || 0);
             currentGroupRevenue = parseInt(data[currentDate]?.group_school_revenue || 0);
+            totalRevenue = parseInt(data[currentDate]?.total_revenue || 0);
 
             populateBarGraph(twoYearAttendanceData, oneYearAttendanceData, currentAttendanceData);
-            populateRevenuePie(currentGeneralRevenue, curentMemberRevenue, currentShopRevenue, currentBirthdayRevenue, currentGroupRevenue);
+            populateRevenuePie(currentGeneralRevenue, curentMemberRevenue, currentShopRevenue, currentBirthdayRevenue, currentGroupRevenue, totalRevenue);
             populateForecastBarGraph(oneDayAttendanceData, twoDayAttendanceData, threeDayAttendanceData, fourDayAttendanceData, fiveDayAttendanceData, sixDayAttendanceData, sevenDayAttendanceData)
 
             console.log("Rendered Info", data);
@@ -65,13 +73,30 @@ function fetchUrlData(urlData) {
 }
 
 
+// Attendance as a percentage 
+function attendancePercentage(date) {
+    const percentage = Math.floor((parseInt(dailyReportData[date]?.attendance) / maxAttendance) * 100);
+    return percentage;
+}
+
 // Bar graph
 function populateBarGraph(one, two, three) {
-    const barValues = [one, two, three];
+    let currentPercentage = attendancePercentage(currentDate);
+    let oneYearPercentage = attendancePercentage(oneYearPreviousDate);
+    let twoYearPercentage = attendancePercentage(twoYearPreviousDate);
+
+
+
+
+    const barPercentages = [twoYearPercentage, oneYearPercentage, currentPercentage];
     document.querySelectorAll(".bar").forEach((bar, i) => {
-        bar.style.height = barValues[i] + "%";
+        console.log("Current Percent: ", currentPercentage)
+        console.log("One Year Percent: ", oneYearPercentage)
+        console.log("Two Year Percent: ", twoYearPercentage)
+        bar.style.height = barPercentages[i] + "%";
     });
 
+    const barValues = [one, two, three];
     document.querySelectorAll(".bar-label").forEach((bar, i) => {
         bar.textContent = barValues[i];
     });
@@ -79,18 +104,28 @@ function populateBarGraph(one, two, three) {
 
 // Forecast Bar graph
 function populateForecastBarGraph(one, two, three, four, five, six, seven) {
-    const barValues = [one, two, three, four, five, six, seven];
+    let onePercentage = attendancePercentage(oneDayDate);
+    let twoPercentage = attendancePercentage(twoDayDate);
+    let threePercentage = attendancePercentage(threeDayDate);
+    let fourPercentage = attendancePercentage(fourDayDate);
+    let fivePercentage = attendancePercentage(fiveDayDate);
+    let sixPercentage = attendancePercentage(sixDayDate);
+    let sevenPercentage = attendancePercentage(sevenDayDate);
+
+
+    const barPercentages = [onePercentage, twoPercentage, threePercentage, fourPercentage, fivePercentage, sixPercentage, sevenPercentage];
     document.querySelectorAll(".forecast-bar").forEach((bar, i) => {
-        bar.style.height = barValues[i] + "%";
+        bar.style.height = barPercentages[i] + "%";
     });
 
+    const barValues = [one, two, three, four, five, six, seven];
     document.querySelectorAll(".forecast-bar-label").forEach((bar, i) => {
         bar.textContent = barValues[i];
     });
 }
 
 // Pie chart
-function populateRevenuePie(one, two, three, four, five) {
+function populateRevenuePie(one, two, three, four, five, totalRevenue) {
     const values = [one, two, three, four, five];
     const colors = ['#1abc9c', '#f1c40f', '#e74c3c', '#9b59b6', '#4a90e2'];
 
@@ -98,9 +133,11 @@ function populateRevenuePie(one, two, three, four, five) {
     let start = 0;
 
     values.forEach((value, i) => {
-        gradient += `${colors[i]} ${start}% ${start + value}%, `;
-        start += value;
+        const percentage = (value / totalRevenue) * 100;
+        gradient += `${colors[i]} ${start}% ${start + percentage}%, `;
+        start += percentage;
     });
+
 
     gradient = gradient.slice(0, -2) + ')';
     document.getElementById('pie').style.background = gradient;
