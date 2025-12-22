@@ -18,72 +18,122 @@
       </div>
 
       <div class="grid-cell top-left-cell">
+        <h2>Daily Attendance</h2>
         <div class="bar-chart">
           <div class="bar-container">
-            <div class="bar" style="height: 0%"></div>
             <span class="bar-label label">0</span>
+            <div class="bar" style="height: 0%"></div>
+            <p>2024</p>
           </div>
 
           <div class="bar-container">
-            <div class="bar" style="height: 0%"></div>
             <span class="bar-label label">0</span>
+            <div class="bar" style="height: 0%"></div>
+            <p>2025</p>
           </div>
 
           <div class="bar-container">
-            <div class="bar" style="height: 0%"></div>
             <span class="bar-label label">0</span>
+            <div class="bar" style="height: 0%"></div>
+            <p>Today</p>
           </div>
         </div>
       </div>
 
-      <div class="grid-cell top-middle-cell"></div>
+      <div class="grid-cell top-middle-cell">
+        <h2>Daily Attendance</h2>
+      </div>
 
       <div class="grid-cell top-right-cell">
+        <h2>Daily Attendance Forecast</h2>
         <div class="forecast-bar-chart">
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Sun</p>
           </div>
 
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Mon</p>
           </div>
 
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Tue</p>
           </div>
 
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Wed</p>
           </div>
 
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Thu</p>
           </div>
 
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Fri</p>
           </div>
 
           <div class="bar-container">
-            <div class="forecast-bar" style="height: 0%"></div>
             <span class="forecast-bar-label label">0</span>
+            <div class="forecast-bar" style="height: 0%"></div>
+            <p class="forecast-label">Sat</p>
           </div>
         </div>
       </div>
 
       <div class="grid-cell bottom-left-cell">
-        <div class="pie-chart" id="pie"></div>
+        <h2>Daily Revenue</h2>
+        <div class="pie-chart-container">
+          <div class="pie-chart" id="pie"></div>
+          <p class="revenue-total-container">
+            TOTAL $<span class="pie-revenue-total"></span>
+          </p>
+        </div>
+
+        <div class="revenue-data-container">
+          <div class="single-revenue-container">
+            <div class="revenue-color-bg gen-revenue"></div>
+            <p>GA Revenue: $<span class="pie-revenue"></span></p>
+          </div>
+          <div class="single-revenue-container">
+            <div class="revenue-color-bg membership-revenue"></div>
+            <p>Membership Revenue: $<span class="pie-revenue"></span></p>
+          </div>
+          <div class="single-revenue-container">
+            <div class="revenue-color-bg shop-revenue"></div>
+            <p>Shop Revenue: $<span class="pie-revenue"></span></p>
+          </div>
+          <div class="single-revenue-container">
+            <div class="revenue-color-bg birthday-revenue"></div>
+            <p>Birthday Revenue: $<span class="pie-revenue"></span></p>
+          </div>
+
+          <div class="single-revenue-container">
+            <div class="revenue-color-bg group-revenue"></div>
+            <p>Group and school Revenue: $<span class="pie-revenue"></span></p>
+          </div>
+        </div>
       </div>
 
       <div class="grid-cell bottom-middle-cell"></div>
 
-      <div class="grid-cell bottom-right-cell"></div>
+      <div class="grid-cell bottom-right-cell">
+        <h2>Revenue YTD</h2>
+        <p class="revenue-meter-label"></p>
+        <div class="bar revenue-meter">
+          <div class="revenue-meter-fill"></div>
+        </div>
+      </div>
     </section>
   </body>
 </html>

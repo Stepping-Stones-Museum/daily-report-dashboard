@@ -41,7 +41,14 @@ function fetchUrlData(urlData) {
         .then(data => {
             dailyReportData = data;
 
-            document.querySelector(".daily-date-heading").textContent = currentDate;
+            const yearlyGoal = 100_000; // example goal
+            const ytdRevenue = calculateYTDRevenue(data, currentDate);
+
+            populateRevenueMeter(ytdRevenue, yearlyGoal);
+
+
+            document.querySelector(".daily-date-heading").textContent = formatDate(currentDate);;
+
 
             currentAttendanceData = parseInt(data[currentDate]?.attendance || 0);
             oneYearAttendanceData = parseInt(data[oneYearPreviousDate]?.attendance || 0);
@@ -70,6 +77,17 @@ function fetchUrlData(urlData) {
             console.log("Current Attendance", currentAttendanceData);
         })
         .catch(err => console.error("Failed to fetch schedule data:", err));
+}
+
+// Change date format
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+
+    return date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric'
+    });
 }
 
 
@@ -131,6 +149,15 @@ function populateRevenuePie(one, two, three, four, five, totalRevenue) {
 
     let gradient = 'conic-gradient(';
     let start = 0;
+
+
+
+    document.querySelector(".pie-revenue-total").textContent = totalRevenue;
+
+    const pieValues = [one, two, three, four, five];
+    document.querySelectorAll(".pie-revenue").forEach((slice, i) => {
+        slice.textContent = pieValues[i];
+    });
 
     values.forEach((value, i) => {
         const percentage = (value / totalRevenue) * 100;
@@ -200,4 +227,49 @@ document.addEventListener('DOMContentLoaded', () => {
     renderForecast(oneYearPreviousDate)
     fetchUrlData(firebaseFetchUrl);
 });
+
+// function updateRevenueMeter(ytdRevenue, yearlyGoal) {
+//     const percent = Math.min((ytdRevenue / yearlyGoal) * 100, 100);
+
+//     document.getElementById("revenue-fill").style.width = `${percent}%`;
+//     document.getElementById("revenue-percent").textContent = `${percent.toFixed(1)}%`;
+
+//     document.getElementById("ytd-revenue").textContent =
+//         `$${ytdRevenue.toLocaleString()}`;
+//     document.getElementById("goal-revenue").textContent =
+//         `$${yearlyGoal.toLocaleString()}`;
+// }
+
+// // Example usage
+// updateRevenueMeter(642000, 1000000);
+
+function calculateYTDRevenue(data, currentDate) {
+    const currentYear = currentDate.split('-')[0]; // "2025"
+    let ytdRevenue = 0;
+
+    Object.entries(data).forEach(([date, dayData]) => {
+        if (
+            date.startsWith(currentYear) &&
+            date <= currentDate
+        ) {
+            ytdRevenue += parseInt(dayData?.total_revenue || 0);
+        }
+    });
+
+    return ytdRevenue;
+}
+
+
+
+function populateRevenueMeter(ytdRevenue, yearlyGoal) {
+    const percentage = Math.min((ytdRevenue / yearlyGoal) * 100, 100);
+
+    document.querySelector('.revenue-meter-fill').style.height =
+        `${percentage}%`;
+
+    document.querySelector('.revenue-meter-label').textContent =
+        `$${ytdRevenue.toLocaleString()} of $${yearlyGoal.toLocaleString()} (${percentage.toFixed(1)}%)`;
+}
+
+
 

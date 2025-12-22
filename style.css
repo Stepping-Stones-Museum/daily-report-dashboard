@@ -1,11 +1,23 @@
 * {
     margin: 0;
     box-sizing: border-box;
+    font-family: "Greycliff", sans-serif;
 }
 
 body {
     width: 100vw;
     height: 100vh;
+    background: rgb(236, 236, 236);
+    font-weight: 600;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+.revenue-total-container {
+    font-weight: 700;
+    font-size: 1.5rem;
 }
 
 .dashboard-grid {
@@ -18,20 +30,26 @@ body {
     padding: 10px;
 }
 
-.heading-cell {
-    grid-area: 1 / 1 / span 1 / span 3;
 
-}
 
 .grid-cell {
     width: 100%;
     height: 100%;
-     /*background-color: rgb(219, 219, 219); */
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
-    border: 2px solid rgb(241, 241, 241);
+    border: 1px solid rgb(207, 207, 207);
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: flex-start;
+    padding: 15px;
+    flex-direction: column;
+}
+
+.heading-cell {
+    grid-area: 1 / 1 / span 1 / span 3;
+    background: none;
+    border: none;
+    align-items: center;
 }
 
 .top-left-cell {
@@ -48,7 +66,9 @@ body {
 
 .bottom-left-cell {
     grid-area: 3 / 1 / span 1 / span 1;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
 .bottom-middle-cell {
@@ -57,14 +77,17 @@ body {
 
 .bottom-right-cell {
     grid-area: 3 / 3 / span 1 / span 1;
+    flex-direction: column;
 }
 
 .date-toggle {
     display: flex;
     gap: 25px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
+    width: 100%;
+    max-width: 750px;
 }
 
 .bar-chart, .forecast-bar-chart {
@@ -72,9 +95,8 @@ body {
     align-items: flex-end;
     gap: 5px;
     height: 100%;
-    padding: 10px;
-    border-left: 2px solid #ccc;
-    border-bottom: 2px solid #ccc;
+    /* border-left: 2px solid #ccc;
+    border-bottom: 2px solid #ccc; */
     width: 100%;
     
   }
@@ -93,20 +115,88 @@ body {
     background-color: #4a90e2;
     border-radius: 4px 4px 0 0;
     transition: height 0.3s ease;
+    margin: 5px 0px;
   }
   
   .label {
     margin-top: 8px;
-    font-size: 14px;
   }
   
   
   
+  .pie-chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+  }
   
   .pie-chart {
-    width: 200px;
-    height: 200px;
+    width: 50%;
+    aspect-ratio: 1/1;
     border-radius: 50%;
   }
-  
-  
+
+  .revenue-total-container {
+    display: flex;
+    height: 100%;
+    align-items: flex-end;
+    margin-bottom: 100px;
+  }
+
+  .revenue-data-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    width: 100%;
+  }
+
+  .single-revenue-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .revenue-color-bg {
+    width: 10px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: #1abc9c;
+    margin-right:7px;
+  }
+
+  .membership-revenue {
+    background-color: #f1c40f;
+  }
+
+  .shop-revenue {
+    background-color: #e74c3c;
+  }
+
+  .birthday-revenue {
+    background-color: #9b59b6;
+  }
+
+  .group-revenue {
+    background-color: #4a90e2;
+  }
+
+  .revenue-meter {
+    width: 65%;
+    height: 90%;
+    background: #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.revenue-meter-fill {
+    height: 0%;
+    width: 100%;
+    background: linear-gradient(0deg, #4caf50, #81c784);
+    transition: width 0.6s ease;
+}
