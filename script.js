@@ -1,8 +1,12 @@
 const firebaseUrl = "https://ssmc-daily-report-default-rtdb.firebaseio.com/";
 let firebaseFetchUrl = `${firebaseUrl}.json`;
-let currentDate = '2025-12-18';
-let oneYearPreviousDate = '2024-12-19';
-let twoYearPreviousDate = '2023-12-14';
+const today = new Date();
+
+// Get YYYY-MM-DD
+let currentDate = today.toISOString().split('T')[0];
+
+let oneYearPreviousDate;
+let twoYearPreviousDate;
 const maxAttendance = 1000;
 let dailyReportData;
 
@@ -17,6 +21,8 @@ let sevenDayDate;
 let currentAttendanceData;
 let oneYearAttendanceData;
 let twoYearAttendanceData;
+
+
 
 let oneDayAttendanceData;
 let twoDayAttendanceData;
@@ -41,26 +47,49 @@ function fetchUrlData(urlData) {
         .then(data => {
             dailyReportData = data;
 
+            oneYearPreviousDate = data[currentDate]?.previous_year_date;
+            twoYearPreviousDate = data[currentDate]?.second_year_date;
+
+
+
             const yearlyGoal = 100_000; // example goal
             const ytdRevenue = calculateYTDRevenue(data, currentDate);
 
             populateRevenueMeter(ytdRevenue, yearlyGoal);
 
 
-            document.querySelector(".daily-date-heading").textContent = formatDate(currentDate);;
+            document.querySelector(".daily-date-heading").textContent = formatDate(currentDate);
 
 
             currentAttendanceData = parseInt(data[currentDate]?.attendance || 0);
             oneYearAttendanceData = parseInt(data[oneYearPreviousDate]?.attendance || 0);
             twoYearAttendanceData = parseInt(data[twoYearPreviousDate]?.attendance || 0);
+            renderForecast(oneYearPreviousDate)
 
-            oneDayAttendanceData = parseInt(data[oneDayDate]?.attendance || 0);
-            twoDayAttendanceData = parseInt(data[twoDayDate]?.attendance || 0);
-            threeDayAttendanceData = parseInt(data[threeDayDate]?.attendance || 0);
-            fourDayAttendanceData = parseInt(data[fourDayDate]?.attendance || 0);
-            fiveDayAttendanceData = parseInt(data[fiveDayDate]?.attendance || 0);
-            sixDayAttendanceData = parseInt(data[sixDayDate]?.attendance || 0);
-            sevenDayAttendanceData = parseInt(data[sevenDayDate]?.attendance || 0);
+            let forecastDates = [
+                oneDayDate,
+                twoDayDate,
+                threeDayDate,
+                fourDayDate,
+                fiveDayDate,
+                sixDayDate,
+                sevenDayDate
+            ];
+
+            // Map each date to an object with attendance and day name
+            const forecastData = forecastDates.map(dateStr => {
+
+                const attendance = parseInt(data[dateStr]?.attendance || 0);
+
+                const dayName = data[dateStr]?.day?.slice(0, 3);
+
+
+                return {
+                    date: dateStr,
+                    attendance,
+                    dayName
+                };
+            });
 
             currentGeneralRevenue = parseInt(data[currentDate]?.general_admission_revenue || 0);
             curentMemberRevenue = parseInt(data[currentDate]?.membership_revenue || 0);
@@ -71,7 +100,7 @@ function fetchUrlData(urlData) {
 
             populateBarGraph(twoYearAttendanceData, oneYearAttendanceData, currentAttendanceData);
             populateRevenuePie(currentGeneralRevenue, curentMemberRevenue, currentShopRevenue, currentBirthdayRevenue, currentGroupRevenue, totalRevenue);
-            populateForecastBarGraph(oneDayAttendanceData, twoDayAttendanceData, threeDayAttendanceData, fourDayAttendanceData, fiveDayAttendanceData, sixDayAttendanceData, sevenDayAttendanceData)
+            populateForecastBarGraph(forecastData)
 
             console.log("Rendered Info", data);
             console.log("Current Attendance", currentAttendanceData);
@@ -81,7 +110,10 @@ function fetchUrlData(urlData) {
 
 // Change date format
 function formatDate(dateStr) {
-    const date = new Date(dateStr);
+    const [year, month, day] = dateStr.split('-').map(Number);
+
+
+    const date = new Date(year, month - 1, day);
 
     return date.toLocaleDateString('en-US', {
         weekday: 'long',
@@ -89,6 +121,8 @@ function formatDate(dateStr) {
         day: 'numeric'
     });
 }
+
+
 
 
 // Attendance as a percentage 
@@ -108,9 +142,7 @@ function populateBarGraph(one, two, three) {
 
     const barPercentages = [twoYearPercentage, oneYearPercentage, currentPercentage];
     document.querySelectorAll(".bar").forEach((bar, i) => {
-        console.log("Current Percent: ", currentPercentage)
-        console.log("One Year Percent: ", oneYearPercentage)
-        console.log("Two Year Percent: ", twoYearPercentage)
+
         bar.style.height = barPercentages[i] + "%";
     });
 
@@ -121,7 +153,13 @@ function populateBarGraph(one, two, three) {
 }
 
 // Forecast Bar graph
-function populateForecastBarGraph(one, two, three, four, five, six, seven) {
+function populateForecastBarGraph(forecastData) {
+    forecastData.forEach((day, i) => {
+        document.querySelectorAll(".forecast-bar-label")[i].textContent = day.attendance;
+        document.querySelectorAll(".forecast-label")[i].textContent = day.dayName;
+    });
+
+
     let onePercentage = attendancePercentage(oneDayDate);
     let twoPercentage = attendancePercentage(twoDayDate);
     let threePercentage = attendancePercentage(threeDayDate);
@@ -131,15 +169,14 @@ function populateForecastBarGraph(one, two, three, four, five, six, seven) {
     let sevenPercentage = attendancePercentage(sevenDayDate);
 
 
+
+
     const barPercentages = [onePercentage, twoPercentage, threePercentage, fourPercentage, fivePercentage, sixPercentage, sevenPercentage];
     document.querySelectorAll(".forecast-bar").forEach((bar, i) => {
         bar.style.height = barPercentages[i] + "%";
     });
 
-    const barValues = [one, two, three, four, five, six, seven];
-    document.querySelectorAll(".forecast-bar-label").forEach((bar, i) => {
-        bar.textContent = barValues[i];
-    });
+
 }
 
 // Pie chart
@@ -224,40 +261,30 @@ function renderDates() {
 
 // DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    renderForecast(oneYearPreviousDate)
+
     fetchUrlData(firebaseFetchUrl);
+    //renderForecast(oneYearPreviousDate);
+
 });
 
-// function updateRevenueMeter(ytdRevenue, yearlyGoal) {
-//     const percent = Math.min((ytdRevenue / yearlyGoal) * 100, 100);
 
-//     document.getElementById("revenue-fill").style.width = `${percent}%`;
-//     document.getElementById("revenue-percent").textContent = `${percent.toFixed(1)}%`;
 
-//     document.getElementById("ytd-revenue").textContent =
-//         `$${ytdRevenue.toLocaleString()}`;
-//     document.getElementById("goal-revenue").textContent =
-//         `$${yearlyGoal.toLocaleString()}`;
-// }
+function calculateYTDRevenue(data, currentDateStr) {
+    const currentDateObj = new Date(currentDateStr);
+    const currentYear = currentDateObj.getFullYear(); // 2025, even on Dec 31
 
-// // Example usage
-// updateRevenueMeter(642000, 1000000);
-
-function calculateYTDRevenue(data, currentDate) {
-    const currentYear = currentDate.split('-')[0]; // "2025"
     let ytdRevenue = 0;
 
-    Object.entries(data).forEach(([date, dayData]) => {
-        if (
-            date.startsWith(currentYear) &&
-            date <= currentDate
-        ) {
+    Object.entries(data).forEach(([dateStr, dayData]) => {
+        const dateObj = new Date(dateStr);
+        if (dateObj.getFullYear() === currentYear && dateObj <= currentDateObj) {
             ytdRevenue += parseInt(dayData?.total_revenue || 0);
         }
     });
 
     return ytdRevenue;
 }
+
 
 
 
