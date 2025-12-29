@@ -1,6 +1,7 @@
 const firebaseUrl = "https://ssmc-daily-report-default-rtdb.firebaseio.com/";
 let firebaseFetchUrl = `${firebaseUrl}.json`;
 const today = new Date();
+let currentYear;
 
 // Get YYYY-MM-DD
 let currentDate = today.toISOString().split('T')[0];
@@ -8,7 +9,8 @@ let currentDate = today.toISOString().split('T')[0];
 let oneYearPreviousDate;
 let twoYearPreviousDate;
 const maxAttendance = 1000;
-let dailyReportData;
+let dailyReportData = null;
+const yearlyGoal = 100_000;
 
 let oneDayDate;
 let twoDayDate;
@@ -52,7 +54,7 @@ function fetchUrlData(urlData) {
 
 
 
-            const yearlyGoal = 100_000; // example goal
+
             const ytdRevenue = calculateYTDRevenue(data, currentDate);
 
             populateRevenueMeter(ytdRevenue, yearlyGoal);
@@ -91,6 +93,20 @@ function fetchUrlData(urlData) {
                 };
             });
 
+            // Map revenue breakdown to an object
+            const dayData = data[currentDate];
+
+            const revenueBreakdowndata = {
+                books: dayData?.books_revenue ?? 0,
+                creativePlay: dayData?.creative_play_revenue ?? 0,
+                novelty: dayData?.novelty_revenue ?? 0,
+                plush: dayData?.plush_revenue ?? 0,
+                puzzles: dayData?.puzzles_games_revenue ?? 0,
+                steppingStones: dayData?.stepping_stones_revenue ?? 0,
+                toys: dayData?.toys_revenue ?? 0
+            };
+
+
             currentGeneralRevenue = parseInt(data[currentDate]?.general_admission_revenue || 0);
             curentMemberRevenue = parseInt(data[currentDate]?.membership_revenue || 0);
             currentShopRevenue = parseInt(data[currentDate]?.shop_revenue || 0);
@@ -101,6 +117,7 @@ function fetchUrlData(urlData) {
             populateBarGraph(twoYearAttendanceData, oneYearAttendanceData, currentAttendanceData);
             populateRevenuePie(currentGeneralRevenue, curentMemberRevenue, currentShopRevenue, currentBirthdayRevenue, currentGroupRevenue, totalRevenue);
             populateForecastBarGraph(forecastData)
+            populateRevenueBreakdownBarGraph(revenueBreakdowndata)
 
             console.log("Rendered Info", data);
             console.log("Current Attendance", currentAttendanceData);
@@ -175,8 +192,26 @@ function populateForecastBarGraph(forecastData) {
     document.querySelectorAll(".forecast-bar").forEach((bar, i) => {
         bar.style.height = barPercentages[i] + "%";
     });
+}
 
+function populateRevenueBreakdownBarGraph(revenueData) {
+    const containers = document.querySelectorAll(".revenue-breakdown-bar-container");
 
+    const values = Object.values(revenueData);
+    const maxValue = Math.max(...values, 1);
+
+    containers.forEach(container => {
+        const key = container.dataset.key;
+        const value = revenueData[key] ?? 0;
+
+        const bar = container.querySelector(".revenue-breakdown-bar");
+        const label = container.querySelector(".revenue-breakdown-bar-label");
+
+        const widthPercent = (value / maxValue) * 100;
+
+        bar.style.width = `${widthPercent}%`;
+        label.textContent = `$${value.toLocaleString()}`;
+    });
 }
 
 // Pie chart
@@ -256,6 +291,7 @@ function renderDates() {
     console.log('5 day:', fiveDayDate);
     console.log('6 day:', sixDayDate);
     console.log('7 day:', sevenDayDate);
+
     fetchUrlData(firebaseFetchUrl);
 }
 
@@ -271,7 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function calculateYTDRevenue(data, currentDateStr) {
     const currentDateObj = new Date(currentDateStr);
-    const currentYear = currentDateObj.getFullYear(); // 2025, even on Dec 31
+    currentYear = currentDateObj.getFullYear();
+    console.log(currentYear)
 
     let ytdRevenue = 0;
 

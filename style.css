@@ -137,6 +137,7 @@ h1 {
     width: 50%;
     aspect-ratio: 1/1;
     border-radius: 50%;
+    transition: 0.3s ease-in-out;
   }
 
   .revenue-total-container {
@@ -199,4 +200,54 @@ h1 {
     width: 100%;
     background: linear-gradient(0deg, #4caf50, #81c784);
     transition: width 0.6s ease;
+}
+
+
+
+.revenue-breakdown-bar-chart {
+    flex-direction: column;
+}
+
+.revenue-breakdown-bar-container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.revenue-breakdown-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease-in-out;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.revenue-breakdown-bar-container[data-key=books] .revenue-breakdown-bar, .books-revenue {
+    background-color: #6c98f6;
+}
+
+.revenue-breakdown-bar-container[data-key=creativePlay] .revenue-breakdown-bar, .creativ-play-revenue {
+    background-color: #f5cd3f;
+}
+
+.revenue-breakdown-bar-container[data-key=novelty] .revenue-breakdown-bar, .novelty-revenue {
+    background-color: #9b5bda;
+}
+
+.revenue-breakdown-bar-container[data-key=plush] .revenue-breakdown-bar, .plush-revenue {
+    background-color: #cc424c;
+}
+
+.revenue-breakdown-bar-container[data-key=puzzles] .revenue-breakdown-bar, .puzzles-revenue {
+    background-color: #59c57d;
+}
+
+.revenue-breakdown-bar-container[data-key=steppingStones] .revenue-breakdown-bar, .ssmc-revenue {
+    background-color: #82c9fa;
+}
+
+.revenue-breakdown-bar-container[data-key=toys] .revenue-breakdown-bar, .toys-revenue {
+    background-color: #f0b050;
+}
+ 
+.revenue-breakdown-label {
+    display: none;
 }
