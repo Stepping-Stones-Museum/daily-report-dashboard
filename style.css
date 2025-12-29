@@ -206,6 +206,7 @@ h1 {
 
 .revenue-breakdown-bar-chart {
     flex-direction: column;
+    padding: 15px 0px;
 }
 
 .revenue-breakdown-bar-container {
@@ -218,6 +219,7 @@ h1 {
     width: 0%;
     transition: width 0.3s ease-in-out;
     border-radius: 0px 5px 5px 0px;
+    margin-right: 10px;
 }
 
 .revenue-breakdown-bar-container[data-key=books] .revenue-breakdown-bar, .books-revenue {
