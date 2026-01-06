@@ -71,12 +71,12 @@ h1 {
     flex-direction: column;
 }
 
-.bottom-middle-cell {
+/* .bottom-middle-cell {
     grid-area: 3 / 2 / span 1 / span 1;
-}
+} */
 
 .bottom-right-cell {
-    grid-area: 3 / 3 / span 1 / span 1;
+    grid-area: 3 / 2 / span 1 / span 2;
     flex-direction: column;
 }
 
@@ -87,7 +87,7 @@ h1 {
     align-items: center;
     height: 100%;
     width: 100%;
-    max-width: 750px;
+    max-width: 550px;
 }
 
 .bar-chart, .forecast-bar-chart {
@@ -184,26 +184,63 @@ h1 {
     background-color: #4a90e2;
   }
 
+  /* YTD section */
+
+  .ytd-bars-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    padding-top: 20px;
+  }
+
+  .ytd-single-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .revenue-meter {
-    width: 65%;
+
+    width: 100%;
     height: 90%;
     background: #eee;
     border-radius: 12px;
     overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
 }
 
 .revenue-meter-fill {
+    margin-top: 5px;
     height: 0%;
     width: 100%;
     background: linear-gradient(0deg, #4caf50, #81c784);
-    transition: width 0.6s ease;
+    transition: height 0.6s ease;
 }
 
+  .membership-revenue-fill {
+    background: linear-gradient(0deg, #e3b90d, #fed73a);
+  }
 
+  .shop-revenue-fill {
+    background: linear-gradient(0deg, #d14536, #ff6b5a);
+  }
 
+  .birthday-revenue-fill {
+    background: linear-gradient(0deg, #9b59b6, #d98ef6);
+  }
+
+  .group-revenue-fill {
+    background: linear-gradient(0deg, #4a90e2, #77b6ff);
+  }
+
+/* Revenue Breakdown Section currently not being used */
+/* 
 .revenue-breakdown-bar-chart {
     flex-direction: column;
     padding: 15px 0px;
@@ -252,4 +289,4 @@ h1 {
  
 .revenue-breakdown-label {
     display: none;
-}
+} */
