@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Report Dashboard</title>
     <link href="style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
     <script defer src="script.js" rel="script"></script>
   </head>
   <body>
     <section class="dashboard-grid">
       <div class="grid-cell heading-cell">
         <div class="date-toggle">
-          <button onclick="previousDay()">← Previous</button>
+          <button onclick="previousDay()">&lt; Previous</button>
           <h1 class="daily-date-heading">Today's Date</h1>
-          <button onclick="nextDay()">Next →</button>
+          <button onclick="nextDay()">Next &gt;</button>
         </div>
       </div>
 
